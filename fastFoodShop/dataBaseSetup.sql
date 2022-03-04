@@ -5,7 +5,7 @@ use fastfoodshop;
 drop table if exists food;
 create table food (
   id     int,
-  foodtype  varchar(50),
+  foodType  varchar(50),
   foodItem  varchar(50),
   calories int,
   price  float,
