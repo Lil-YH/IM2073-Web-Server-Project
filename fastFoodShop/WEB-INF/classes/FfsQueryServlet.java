@@ -52,7 +52,7 @@ public class FfsQueryServlet extends HttpServlet {
                sqlStr += "'" + foodTypes[i] + "'";    // no commas
             }
          }
-         sqlStr += ") AND qty > 0 ORDER BY foodType ASC, price ASC";
+         sqlStr += ") AND qty > 0 ORDER BY id ASC";
 
          ResultSet rset = stmt.executeQuery(sqlStr);  // Send the query to the server
 
@@ -66,6 +66,7 @@ public class FfsQueryServlet extends HttpServlet {
                   + "<table>"
                   + "<tr>"
                   + "<th> </th>"
+                  + "<th>QUANTITY</th>"
                   + "<th>CATEGORY</th>"
                   + "<th>ITEM</th>"
                   + "<th>CALORIES (cal)</th>"
@@ -76,6 +77,7 @@ public class FfsQueryServlet extends HttpServlet {
          while(rset.next()) {
             out.println("<tr>"
                      + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
+                     + "<td><input type='number' name='qty' value='0' /></td>"
                      + "<td>" + rset.getString("foodType") + "</td>"
                      + "<td>" + rset.getString("foodItem") + "</td>"
                      + "<td>" + rset.getString("calories") + "</td>"
