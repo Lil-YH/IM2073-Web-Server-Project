@@ -1,14 +1,18 @@
 <html>
   <head>
-    <title>Fast Food Kings</title>
+      <title>Fast Food King</title>
+      <link rel = "stylesheet" href = "style.css">
   </head>
   <body>
-    <h2>Fast Food Kings</h2>
-    <form method="get" action="ffsquery">
-      Choose a food category:<br /><br />
-      <input type="checkbox" name="foodType" value="Burger" />Burger
-      <input type="checkbox" name="foodType" value="Fries" />Fries
-      <input type="checkbox" name="foodType" value="Drink" />Drink
+    <header class = "center">Fast Food Kings</header>
+    <h2>Choose a food category:<br /><br /></h2>
+    <form class = "foodtype" method="get" action="ffsquery">
+      <input type="checkbox" name="foodType" value="Burger" />Burger  
+      <img src="images/burger.jpg" alt="Burger" width="500"><br /><br />
+      <input type="checkbox" name="foodType" value="Fries" />Fries  
+      <img src="images/fries.png" alt="Fries" width="500"><br /><br />
+      <input type="checkbox" name="foodType" value="Drink" />Drink  
+      <img src="images/coke.jpg" alt="Coke" width="500"><br /><br />
       <input type="submit" value="Search" />
     </form>
   </body>

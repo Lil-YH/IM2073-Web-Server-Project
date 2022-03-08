@@ -1,0 +1,24 @@
+* {
+    font-family: "Arial"
+}
+
+header {
+    color: #f54242;
+    font-weight: 900;
+    font-size: 50;
+}
+
+.center {
+    text-align: center;
+}
+
+h2 {
+    color: rgb(42, 42, 255);
+    font-size: 25;
+}
+
+.foodtype {
+    font-weight: 500;
+    font-size: 25;
+    color: rgb(63, 0, 0)
+}

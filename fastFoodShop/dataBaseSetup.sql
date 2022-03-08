@@ -7,6 +7,11 @@ create table order_records (
   id int,
   qty_ordered int
 );
+drop table if exists cart;
+create table cart (
+  id int,
+  qty_ordered int
+);
 drop table if exists food;
 create table food (
   id     int,
