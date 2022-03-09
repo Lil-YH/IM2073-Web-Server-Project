@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 //import javax.servlet.annotation.*;
 
 @WebServlet("/ffscart")   // Configure the request URL for this servlet (Tomcat 7/Servlet 3.0 upwards)
-public class FfsOrderServlet extends HttpServlet {
+public class FfsCartServlet extends HttpServlet {
 
    // The doGet() runs once per HTTP GET request to this servlet.
    @Override
@@ -23,8 +23,37 @@ public class FfsOrderServlet extends HttpServlet {
       // Print an HTML page as the output of the query
       out.println("<!DOCTYPE html>");
       out.println("<html>");
-      out.println("<head><title>Fast Food Kings Order Confirmation</title><link rel = 'stylesheet' href = 'style.css'></head>");
-      out.println("<body>");
+      out.println("<head><title>Fast Food Kings Cart</title><link rel = 'stylesheet' href = 'style.css'>");
+      out.println("<!-- Core theme CSS (includes Bootstrap)-->");
+      out.println("<link href='css/styles.css' rel='stylesheet' /></head>");
+
+      out.println("<body> <nav class='navbar navbar-expand-lg navbar-light bg-light'>");
+      out.println("<div class='container px-4 px-lg-5'>");
+          out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
+          out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
+          out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
+              out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
+                  out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
+              out.println("</ul>");
+              out.println("<form class='d-flex'>");
+                  out.println("<button class='btn btn-outline-dark' type='submit'>");
+                      out.println("<i class='bi-cart-fill me-1'></i>");
+                      out.println("Cart");
+                      out.println("<span class='badge bg-dark text-white ms-1 rounded-pill'>0</span>");
+                 out.println(" </button>");
+              out.println("</form>");
+          out.println("</div>");
+      out.println("</div>");
+ out.println(" </nav>");
+ out.println(" <header class='bg-dark py-5'>");
+            out.println("<div class='container px-4 px-lg-5 my-5'>");
+               out.println(" <div class='text-center text-white'>");
+                    out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
+                   out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
+               out.println(" </div>");
+            out.println("</div>");
+       out.println(" </header>");
+      
 
       try (
          // Step 1: Allocate a database 'Connection' object

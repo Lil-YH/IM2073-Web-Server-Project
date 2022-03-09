@@ -23,18 +23,50 @@ public class FfsQueryServlet extends HttpServlet {
       // Print an HTML page as the output of the query
       out.println("<!DOCTYPE html>");
       out.println("<html>");
-      out.println("<head><title>Fast Food Kings Menu</title><meta charset='utf-8' />
-      <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
-      <meta name='description' content=''' />
-      <meta name='author' content=''' />
-      <title>Shop Homepage - Start Bootstrap Template</title>
-      <!-- Favicon-->
-      <link rel='icon' type='image/x-icon' href='assets/favicon.ico' />
-      <!-- Bootstrap icons-->
-      <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css' rel='stylesheet' />
-      <!-- Core theme CSS (includes Bootstrap)-->
-      <link href='css/styles.css' rel='stylesheet' /></head>");
-      out.println("<body>");
+      out.println("<head><title>Fast Food Kings Menu</title>");
+      out.println("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />"); 
+      out.println("<meta name='description' content='' />");
+      out.println("<meta name='author' content='' />");
+      out.println("<title>Shop Homepage - Start Bootstrap Template</title>");
+      out.println("<!-- Bootstrap icons-->");
+      out.println("<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css' rel='stylesheet' />");
+      
+      
+      
+      
+      
+      
+      
+      
+      out.println("<!-- Core theme CSS (includes Bootstrap)-->");
+      out.println("<link href='css/styles.css' rel='stylesheet' /></head>");
+
+      out.println("<body> <nav class='navbar navbar-expand-lg navbar-light bg-light'>");
+      out.println("<div class='container px-4 px-lg-5'>");
+          out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
+          out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
+          out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
+              out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
+                  out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
+              out.println("</ul>");
+              out.println("<form class='d-flex'>");
+                  out.println("<button class='btn btn-outline-dark' type='submit'>");
+                      out.println("<i class='bi-cart-fill me-1'></i>");
+                      out.println("Cart");
+                      out.println("<span class='badge bg-dark text-white ms-1 rounded-pill'>0</span>");
+                 out.println(" </button>");
+              out.println("</form>");
+          out.println("</div>");
+      out.println("</div>");
+ out.println(" </nav>");
+ out.println(" <header class='bg-dark py-5'>");
+            out.println("<div class='container px-4 px-lg-5 my-5'>");
+               out.println(" <div class='text-center text-white'>");
+                    out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
+                   out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
+               out.println(" </div>");
+            out.println("</div>");
+       out.println(" </header>");
 
       try (
          // Step 1: Allocate a database 'Connection' object
@@ -62,7 +94,7 @@ public class FfsQueryServlet extends HttpServlet {
                sqlStr += "'" + foodTypes[i] + "'";    // no commas
             }
          }
-         sqlStr += ") AND qty > 0 ORDER BY id ASC";
+         sqlStr += ") ORDER BY id ASC";
 
          ResultSet rset = stmt.executeQuery(sqlStr);  // Send the query to the server
 
@@ -72,8 +104,7 @@ public class FfsQueryServlet extends HttpServlet {
 
          out.println("<h1>Fast Food Kings<h1>");
 
-         out.println("<style>table, th, td {border:1px solid black;}</style>"
-                  + "<table>"
+         out.println("<table class='table'>"
                   + "<tr>"
                   + "<th> </th>"
                   + "<th>QUANTITY</th>"
@@ -81,10 +112,13 @@ public class FfsQueryServlet extends HttpServlet {
                   + "<th>ITEM</th>"
                   + "<th>CALORIES (cal)</th>"
                   + "<th>PRICE</th>"
+                  + "<th> </th>"
                   + "</tr>");
          
          // For each row in ResultSet, print one checkbox inside the <form>
+        
          while(rset.next()) {
+            
             if(rset.getInt("qty") > 0) {      //Check if item is sold out and display accordingly
                out.println("<tr>"
                + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
@@ -93,6 +127,7 @@ public class FfsQueryServlet extends HttpServlet {
                + "<td>" + rset.getString("foodItem") + "</td>"
                + "<td>" + rset.getString("calories") + "</td>"
                + "<td>$" + rset.getString("price") + "</td>"
+               + "<td><image width='300' src='images/" + rset.getString("foodImage") + "'/></td>"
                + "</tr>");   
             } else {
                out.println("<tr>"
@@ -102,6 +137,7 @@ public class FfsQueryServlet extends HttpServlet {
                + "<td>" + rset.getString("foodItem") + "</td>"
                + "<td>" + rset.getString("calories") + "</td>"
                + "<td>$" + rset.getString("price") + "</td>"
+               + "<td><image width='300' src='images/" + rset.getString("foodImage") + "'/></td>"
                + "</tr>");
             }
          }
@@ -110,10 +146,9 @@ public class FfsQueryServlet extends HttpServlet {
 
          // Print the submit + clear button and </form> end-tag
          out.println("<br><br>");
-         out.println("<input type='reset' value='CLEAR' />");
-         out.println("<input type='submit' value='ADD TO CART' />");
+         out.println("<input class='btn btn-outline-dark mt-auto' type='reset' value='CLEAR' />");
+         out.println("<input class='btn btn-outline-dark mt-auto' type='submit' value='ADD TO CART' />");
          out.println("</form>");
-         out.print("<a href='ffsquery.html'>Main Menu</a>");
       } catch(Exception ex) {
          out.println("<p>Error: " + ex.getMessage() + "</p>");
          out.println("<p>Check Tomcat console for details.</p>");

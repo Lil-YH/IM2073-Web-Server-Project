@@ -11286,4 +11286,11 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
+  .food-image {
+    width: 100px;
+    height: auto;
+  }
+
+  
 }
