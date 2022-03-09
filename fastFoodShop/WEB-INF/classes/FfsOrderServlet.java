@@ -37,9 +37,7 @@ public class FfsOrderServlet extends HttpServlet {
               out.println("</ul>");
               out.println("<form class='d-flex' method='get' action='ffscart'>");
               out.println("<i class='bi-cart-fill me-1'></i>");
-              out.println("<input type='submit' class='btn btn-outline-dark' >");
-                  
-                 out.println("View Cart");
+              out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
               out.println("</input>");
          out.println(" </form>");
           out.println("</div>");

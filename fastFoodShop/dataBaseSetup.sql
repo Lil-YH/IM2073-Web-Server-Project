@@ -32,5 +32,13 @@ insert into food values (1004, 'Fries','Fries Large', 500, 3.00, 3, 'fries.png')
 insert into food values (1005, 'Fries','Fries Small', 230, 2.00, 2, 'friessmall.png');
 insert into food values (1006, 'Drink','Coke Large', 290, 2.50, 6, 'cokelarge.png');
 insert into food values (1007, 'Drink','Coke Small', 140, 1.90, 10, 'cokesmall.jpg');
+
+insert into cart values (1001, 0);
+insert into cart values (1002, 0);
+insert into cart values (1003, 0);
+insert into cart values (1004, 0);
+insert into cart values (1005, 0);
+insert into cart values (1006, 0);
+insert into cart values (1007, 0);
  
 select * from food;

@@ -38,8 +38,6 @@ public class FfsCartServlet extends HttpServlet {
               out.println("<form class='d-flex' method='get' action='ffscart'>");
               out.println("<i class='bi-cart-fill me-1'></i>");
                         out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
-                            
-                           out.println(" Cart");
                         out.println("</input>");
                    out.println(" </form>");
           out.println("</div>");
@@ -69,12 +67,18 @@ public class FfsCartServlet extends HttpServlet {
          // Retrieve the food's id. Can order more than one food.
          String[] ids = request.getParameterValues("id");
          String[] qtys = request.getParameterValues("qty");
-         session.setAttribute("cartid", ids);
-         session.setAttribute("cartqty", qtys);
          if (ids != null) {
             String sqlStr;
             int count;
- 
+            sqlStr = "UPDATE * FROM cart WHERE id IN (";
+            for (int i = 0; i < ids.length; ++i) {
+               if (i < ids.length - 1) {
+                  sqlStr += "'" + ids[i] + "', ";  // need a commas
+               } else {
+                  sqlStr += "'" + ids[i] + "'";    // no commas
+               }
+            }
+         
 
             out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
             out.println("<h3 style='text-align:center;'>Your Cart</h3>");

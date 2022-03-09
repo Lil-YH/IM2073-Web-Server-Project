@@ -50,8 +50,7 @@ public class FfsQueryServlet extends HttpServlet {
                   out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
               out.println("</ul>");
               out.println("<form class='d-flex' method='get' action='ffscart'>");
-              out.println("View Cart");
-                        out.println("<input type='submit' class='btn btn-outline-dark' >");
+                        out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
                             out.println("<i class='bi-cart-fill me-1'></i>");
                            
                         out.println("</input>");
@@ -131,10 +130,10 @@ public class FfsQueryServlet extends HttpServlet {
                + "</tr>");   
             } else {
                out.println("<tr>"
-               + "<td><h2>SOLDOUT</h2></td>"
+               + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
                + "<td><input type='number' name='qty' value='0' max='" + rset.getInt("qty") + "' /></td>" //Restrict qty able to be ordered to be =< stock
                + "<td>" + rset.getString("foodType") + "</td>"
-               + "<td>" + rset.getString("foodItem") + "</td>"
+               + "<td style='color: red'>" + rset.getString("foodItem") + "(SOLDOUT)</td>"
                + "<td>" + rset.getString("calories") + "</td>"
                + "<td>$" + rset.getString("price") + "</td>"
                + "<td><image width='150' src='images/" + rset.getString("foodImage") + "'/></td>"
