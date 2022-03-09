@@ -49,13 +49,13 @@ public class FfsQueryServlet extends HttpServlet {
               out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
                   out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
               out.println("</ul>");
-              out.println("<form class='d-flex'>");
-                  out.println("<button class='btn btn-outline-dark' type='submit'>");
-                      out.println("<i class='bi-cart-fill me-1'></i>");
-                      out.println("Cart");
-                      out.println("<span class='badge bg-dark text-white ms-1 rounded-pill'>0</span>");
-                 out.println(" </button>");
-              out.println("</form>");
+              out.println("<form class='d-flex' method='get' action='ffscart'>");
+              out.println("View Cart");
+                        out.println("<input type='submit' class='btn btn-outline-dark' >");
+                            out.println("<i class='bi-cart-fill me-1'></i>");
+                           
+                        out.println("</input>");
+                   out.println(" </form>");
           out.println("</div>");
       out.println("</div>");
  out.println(" </nav>");
@@ -127,7 +127,7 @@ public class FfsQueryServlet extends HttpServlet {
                + "<td>" + rset.getString("foodItem") + "</td>"
                + "<td>" + rset.getString("calories") + "</td>"
                + "<td>$" + rset.getString("price") + "</td>"
-               + "<td><image width='300' src='images/" + rset.getString("foodImage") + "'/></td>"
+               + "<td><image width='150' src='images/" + rset.getString("foodImage") + "'/></td>"
                + "</tr>");   
             } else {
                out.println("<tr>"
@@ -137,7 +137,7 @@ public class FfsQueryServlet extends HttpServlet {
                + "<td>" + rset.getString("foodItem") + "</td>"
                + "<td>" + rset.getString("calories") + "</td>"
                + "<td>$" + rset.getString("price") + "</td>"
-               + "<td><image width='300' src='images/" + rset.getString("foodImage") + "'/></td>"
+               + "<td><image width='150' src='images/" + rset.getString("foodImage") + "'/></td>"
                + "</tr>");
             }
          }
@@ -147,7 +147,7 @@ public class FfsQueryServlet extends HttpServlet {
          // Print the submit + clear button and </form> end-tag
          out.println("<br><br>");
          out.println("<input class='btn btn-outline-dark mt-auto' type='reset' value='CLEAR' />");
-         out.println("<input class='btn btn-outline-dark mt-auto' type='submit' value='ADD TO CART' />");
+         out.println("<input class='btn btn-outline-dark mt-auto' type='submit' value='UPDATE CART' />");
          out.println("</form>");
       } catch(Exception ex) {
          out.println("<p>Error: " + ex.getMessage() + "</p>");

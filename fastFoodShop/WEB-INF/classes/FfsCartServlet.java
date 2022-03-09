@@ -35,13 +35,13 @@ public class FfsCartServlet extends HttpServlet {
               out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
                   out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
               out.println("</ul>");
-              out.println("<form class='d-flex'>");
-                  out.println("<button class='btn btn-outline-dark' type='submit'>");
-                      out.println("<i class='bi-cart-fill me-1'></i>");
-                      out.println("Cart");
-                      out.println("<span class='badge bg-dark text-white ms-1 rounded-pill'>0</span>");
-                 out.println(" </button>");
-              out.println("</form>");
+              out.println("<form class='d-flex' method='get' action='ffscart'>");
+              out.println("<i class='bi-cart-fill me-1'></i>");
+                        out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
+                            
+                           out.println(" Cart");
+                        out.println("</input>");
+                   out.println(" </form>");
           out.println("</div>");
       out.println("</div>");
  out.println(" </nav>");
@@ -88,8 +88,7 @@ public class FfsCartServlet extends HttpServlet {
                }
             sqlStr += ") ORDER BY id ASC";
             ResultSet rset = stmt.executeQuery(sqlStr);
-            out.println("<style>table, th, td {border:1px solid black;}</style>"
-                  + "<table>"
+            out.println("<table style='border: 0;'' class='table'>"
                   + "<tr>"
                   + "<th>QUANTITY</th>"
                   + "<th>CATEGORY</th>"
@@ -111,13 +110,14 @@ public class FfsCartServlet extends HttpServlet {
             totalCalories += Integer.parseInt(qtys[i]) * rset.getInt("calories");
             totalPrice += Integer.parseInt(qtys[i++]) * rset.getFloat("price");
             }
+         out.println("<form method='get' action='ffsorder'");
          out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
          out.println("<h3>Total Price: $"+ totalPrice + "</h3>");
-
-         
-         out.println("<p>Enter your Name: <input type='text' name='cust_name' /></p>");
-         out.println("<p>Enter your Email: <input type='text' name='cust_email' /></p>");
-         out.println("<p>Enter your Phone Number: <input type='text' name='cust_phone' /></p>");
+         out.println("<p>Enter your Name: <input type='text' name='cust_name' required /></p>");
+         out.println("<p>Enter your Email: <input type='text' name='cust_email' required/></p>");
+         out.println("<p>Enter your Phone Number: <input type='text' name='cust_phone' required/></p>");
+         out.println("<input type='submit' class='btn btn-outline-dark mt-auto' value='Submit Order'/>");
+         out.println("</form>");
          } else { // No food selected
             out.println("<h3>No food selected... Please go back and order a food/drink :)</h3>");
          }
