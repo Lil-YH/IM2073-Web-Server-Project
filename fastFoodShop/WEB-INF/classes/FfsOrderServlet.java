@@ -29,25 +29,25 @@ public class FfsOrderServlet extends HttpServlet {
 
       out.println("<body> <nav class='navbar navbar-expand-lg navbar-light bg-light'>");
       out.println("<div class='container px-4 px-lg-5'>");
-          out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
-          out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
-          out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
-              out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
-                  out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
-              out.println("</ul>");
-              out.println("<form class='d-flex' method='get' action='ffscart'>");
-              out.println("<i class='bi-cart-fill me-1'></i>");
-              out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
-              out.println("</input>");
-         out.println(" </form>");
-          out.println("</div>");
+         out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
+         out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
+         out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
+            out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
+               out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
+	         out.println("</ul>");
+	         out.println("<form class='d-flex' method='get' action='ffscart'>");
+	         out.println("<i class='bi-cart-fill me-1'></i>");
+	         out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
+	         out.println("</input>");
+         	out.println(" </form>");
+         out.println("</div>");
       out.println("</div>");
- out.println(" </nav>");
- out.println(" <header class='bg-dark py-5'>");
+ 		out.println(" </nav>");
+ 		out.println(" <header class='bg-dark py-5'>");
             out.println("<div class='container px-4 px-lg-5 my-5'>");
                out.println(" <div class='text-center text-white'>");
-                    out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
-                   out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
+                  out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
+                  out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
                out.println(" </div>");
             out.println("</div>");
        out.println(" </header>");
@@ -61,72 +61,86 @@ public class FfsOrderServlet extends HttpServlet {
          // Step 2: Allocate a 'Statement' object in the Connection
          Statement stmt = conn.createStatement();
       ) {
-         // Step 3 & 4: Execute a SQL SELECT query and Process the query result
-         // Retrieve the food's id. Can order more than one food.
-         String[] ids = request.getParameterValues("id");
-         String[] qtys = request.getParameterValues("qty");
-         if (ids != null) {
-            String sqlStr;
-            int count;
- 
-            // Process each of the food
-            for (int i = 0; i < ids.length; ++i) {
-               // Update the qty of the table food
-               sqlStr = "UPDATE food SET qty = qty - " + qtys[i] + " WHERE id = " + ids[i];
-               //out.println("<p>" + sqlStr + "</p>");  // for debugging
-               count = stmt.executeUpdate(sqlStr);
-               //out.println("<p>" + count + " record updated.</p>");
- 
-               // Create a transaction record
-               sqlStr = "INSERT INTO order_records (id, qty_ordered) VALUES ("
-                     + ids[i] + ", " + qtys[i] + ")";
-               //out.println("<p>" + sqlStr + "</p>");  // for debugging
-               count = stmt.executeUpdate(sqlStr);
-               /*out.println("<p>" + count + " record inserted.</p>");
-               out.println("<h3>Your order for food id=" + ids[i]
-                     + " has been confirmed.</h3>");*/
-            }
+	      // Step 3 & 4: Execute a SQL SELECT query and Process the query result
+	      // Retrieve the food's id. Can order more than one food.
+	      String[] ids = request.getParameterValues("id");
+	      String[] qtys = request.getParameterValues("qty");
+	      if (ids != null) {
+         	String sqlStr;
+         	int count;
 
-            out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
-            out.println("<h3 style='text-align:center;'>Order placed</h3>");
-            out.println("<p style='text-align:center;'>We are preparing your order.</p>");
-            sqlStr = "SELECT * FROM food WHERE id IN (";
-               for (int i = 0; i < ids.length; ++i) {
-                  if (i < ids.length - 1) {
-                     sqlStr += "'" + ids[i] + "', ";  // need a commas
-                  } else {
-                     sqlStr += "'" + ids[i] + "'";    // no commas
-                  }
+         // Process each of the food
+         for (int i = 0; i < ids.length; ++i) {
+            // Update the qty of the table food
+            sqlStr = "UPDATE food SET qty = qty - " + qtys[i] + " WHERE id = " + ids[i];
+            //out.println("<p>" + sqlStr + "</p>");  // for debugging
+            count = stmt.executeUpdate(sqlStr);
+            //out.println("<p>" + count + " record updated.</p>");
+
+            // Create a transaction record
+            sqlStr = "INSERT INTO order_records (id, qty_ordered) VALUES ("
+                   + ids[i] + ", " + qtys[i] + ")";
+            //out.println("<p>" + sqlStr + "</p>");  // for debugging
+            count = stmt.executeUpdate(sqlStr);
+            /*out.println("<p>" + count + " record inserted.</p>");
+            out.println("<h3>Your order for food id=" + ids[i]
+                  + " has been confirmed.</h3>");*/
+
+            // clear cart
+            sqlStr = "DELETE FROM cart";
+            count = stmt.executeUpdate(sqlStr);
+         }
+
+         out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
+         out.println("<h3 style='text-align:center;'>Order placed</h3>");
+         out.println("<p style='text-align:center;'>We are preparing your order.</p>");
+          
+         sqlStr = "SELECT * FROM order_records WHERE id IN (";
+            for (int i = 0; i < ids.length; ++i) {
+               if (i < ids.length - 1) {
+                  sqlStr += "'" + ids[i] + "', ";  // need a commas
+               } else {
+                  sqlStr += "'" + ids[i] + "'";    // no commas
                }
-            sqlStr += ") ORDER BY id ASC";
-            ResultSet rset = stmt.executeQuery(sqlStr);
-            out.println("<style>table, th, td {border:1px solid black;}</style>"
-                  + "<table>"
-                  + "<tr>"
-                  + "<th>QUANTITY ORDERED</th>"
-                  + "<th>CATEGORY</th>"
-                  + "<th>ITEM</th>"
-                  + "<th>CALORIES (cal)</th>"
-                  + "<th>PRICE</th>"
-                  + "</tr>");
-            int i = 0;
-            float totalPrice = 0;
-            int totalCalories = 0;
-            while(rset.next()) {
-            out.println("<tr>"
-                     + "<td>" + qtys[i] + "</td>"
-                     + "<td>" + rset.getString("foodType") + "</td>"
-                     + "<td>" + rset.getString("foodItem") + "</td>"
-                     + "<td>" + rset.getString("calories") + "</td>"
-                     + "<td>$" + rset.getString("price") + "</td>"
-                     + "</tr>");
-            totalCalories += Integer.parseInt(qtys[i]) * rset.getInt("calories");
-            totalPrice += Integer.parseInt(qtys[i++]) * rset.getFloat("price");
             }
-         out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
-         out.println("<h3>Total Price: $"+ totalPrice + "</h3>");
+         sqlStr += ") ORDER BY id ASC";
+         ResultSet rset = stmt.executeQuery(sqlStr);
+          
+         out.println("<style>table, th, td {border:1px solid black;}</style>"
+               + "<table>"
+               + "<tr>"
+               + "<th>CATEGORY</th>"
+               + "<th>ITEM</th>"
+               + "<th>CALORIES (cal)</th>"
+               + "<th>QUANTITY ORDERED</th>"
+               + "<th>PRICE</th>"
+               + "</tr>");
+         int i = 0;					// why i = 0 here? shld it be set inside while loop? then i++ before the end of the loop
+         float totalPrice = 0;
+         int totalCalories = 0;
+         while(rset.next()) {
+         	// int i = 0;
+          	out.println("<tr>"
+                  //+ "<td>" + qtys[i] + "</td>"	// do we need this?
+                  + "<td>" + rset.getString("foodType") + "</td>"
+                  + "<td>" + rset.getString("foodItem") + "</td>"
+                  + "<td>" + rset.getString("calories") + "</td>"
+                  + "<td>" + rset.getString("qty_ordered") + "</td>"
+                  + "<td>$" + rset.getString("price") + "</td>"
+                  + "</tr>");
+          	totalCalories += Integer.parseInt(qtys[i]) * rset.getInt("calories");
+          	totalPrice += Integer.parseInt(qtys[i++]) * rset.getFloat("price");
+          	// i++
+         }
+
+       	out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
+       	out.println("<h3>Total Price: $"+ totalPrice + "</h3>");
+       	out.println("<br><br>");
+       	out.println("<h3 style='text-align:center;'>Thank you!</h3>");
+       	// insert button back to home page
+
          } else { // No food selected
-            out.println("<h3>No food selected... Please go back and order a food/drink :)</h3>");
+         	out.println("<h3>No food selected... Please go back and order a food/drink :)</h3>");
          }
       } catch(Exception ex) {
          out.println("<p>Error: " + ex.getMessage() + "</p>");

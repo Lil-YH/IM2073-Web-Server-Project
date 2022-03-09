@@ -29,30 +29,29 @@ public class FfsCartServlet extends HttpServlet {
 
       out.println("<body> <nav class='navbar navbar-expand-lg navbar-light bg-light'>");
       out.println("<div class='container px-4 px-lg-5'>");
-          out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
-          out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
-          out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
-              out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
-                  out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
-              out.println("</ul>");
-              out.println("<form class='d-flex' method='get' action='ffscart'>");
-              out.println("<i class='bi-cart-fill me-1'></i>");
-                        out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
-                        out.println("</input>");
-                   out.println(" </form>");
-          out.println("</div>");
+         out.println("<a class='navbar-brand' href='#!'>FAST FOOD KINGS</a>");
+         out.println("<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'><span class='navbar-toggler-icon'></span></button>");
+         out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
+            out.println("<ul class='navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4'>");
+               out.println("<li class='nav-item'><a class='nav-link active' aria-current='page' href='index.html'>Home</a></li>");
+            out.println("</ul>");
+            out.println("<form class='d-flex' method='get' action='ffscart'>");
+            out.println("<i class='bi-cart-fill me-1'></i>");
+            out.println("<input type='submit' value='View Cart' class='btn btn-outline-dark' >");
+            out.println("</input>");
+            out.println(" </form>");
+         out.println("</div>");
       out.println("</div>");
- out.println(" </nav>");
- out.println(" <header class='bg-dark py-5'>");
+      out.println(" </nav>");
+      out.println(" <header class='bg-dark py-5'>");
             out.println("<div class='container px-4 px-lg-5 my-5'>");
                out.println(" <div class='text-center text-white'>");
-                    out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
-                   out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
+                  out.println("<h1 class='display-4 fw-bolder'>FILL YOUR TUMMY</h1>");
+                  out.println(" <p class='lead fw-normal text-white-50 mb-0'>With our amazing western delights!</p>");
                out.println(" </div>");
             out.println("</div>");
-       out.println(" </header>");
+      out.println(" </header>");
       
-
       try (
          // Step 1: Allocate a database 'Connection' object
          Connection conn = DriverManager.getConnection(
@@ -79,7 +78,6 @@ public class FfsCartServlet extends HttpServlet {
                }
             }
          
-
             out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
             out.println("<h3 style='text-align:center;'>Your Cart</h3>");
             sqlStr = "SELECT * FROM food WHERE id IN (";
@@ -120,7 +118,8 @@ public class FfsCartServlet extends HttpServlet {
          out.println("<p>Enter your Name: <input type='text' name='cust_name' required /></p>");
          out.println("<p>Enter your Email: <input type='text' name='cust_email' required/></p>");
          out.println("<p>Enter your Phone Number: <input type='text' name='cust_phone' required/></p>");
-         out.println("<input type='submit' class='btn btn-outline-dark mt-auto' value='Submit Order'/>");
+         out.println("<br><br>");
+         out.println("<input type='submit' class='btn btn-outline-dark mt-auto' value='Order'/>");
          out.println("</form>");
          } else { // No food selected
             out.println("<h3>No food selected... Please go back and order a food/drink :)</h3>");

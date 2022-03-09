@@ -7,7 +7,8 @@ use fastfoodshop;
 drop table if exists order_records;
 create table order_records (
   id int,
-  qty_ordered int
+  qty_ordered int,
+  cust_id     int
 );
 drop table if exists cart;
 create table cart (
@@ -24,6 +25,14 @@ create table food (
   qty    int,
   foodImage varchar(50),
   primary key (id));
+drop table if exists customers;
+create table customers (
+  cust_id     int auto_increment,
+  cust_name  varchar(50),
+  cust_email varchar(50),
+  cust_phone char(8),
+  primary key (cust_id));
+alter table customers auto_increment=8000;
  
 insert into food values (1001, 'Burger','Cheese Burger', 450, 5.50, 0, 'cheeseburger.jpg');
 insert into food values (1002, 'Burger','Fish Burger', 450, 5.50, 5, 'fishburger.jpg');
