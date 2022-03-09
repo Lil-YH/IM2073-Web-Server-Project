@@ -19,11 +19,21 @@ public class FfsQueryServlet extends HttpServlet {
       response.setContentType("text/html");
       // Get a output writer to write the response message into the network socket
       PrintWriter out = response.getWriter();
-
+      HttpSession session =request.getSession();         
       // Print an HTML page as the output of the query
       out.println("<!DOCTYPE html>");
       out.println("<html>");
-      out.println("<head><title>Fast Food Kings Menu</title></head>");
+      out.println("<head><title>Fast Food Kings Menu</title><meta charset='utf-8' />
+      <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+      <meta name='description' content=''' />
+      <meta name='author' content=''' />
+      <title>Shop Homepage - Start Bootstrap Template</title>
+      <!-- Favicon-->
+      <link rel='icon' type='image/x-icon' href='assets/favicon.ico' />
+      <!-- Bootstrap icons-->
+      <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css' rel='stylesheet' />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <link href='css/styles.css' rel='stylesheet' /></head>");
       out.println("<body>");
 
       try (
@@ -58,7 +68,7 @@ public class FfsQueryServlet extends HttpServlet {
 
          // Step 4: Process the query result set
          // Print the <form> start tag
-         out.println("<form method='get' action='ffsorder'>");
+         out.println("<form method='get' action='ffscart'>");
 
          out.println("<h1>Fast Food Kings<h1>");
 
@@ -75,27 +85,35 @@ public class FfsQueryServlet extends HttpServlet {
          
          // For each row in ResultSet, print one checkbox inside the <form>
          while(rset.next()) {
-            out.println("<tr>"
-                     + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
-                     + "<td><input type='number' name='qty' value='0' /></td>"
-                     + "<td>" + rset.getString("foodType") + "</td>"
-                     + "<td>" + rset.getString("foodItem") + "</td>"
-                     + "<td>" + rset.getString("calories") + "</td>"
-                     + "<td>$" + rset.getString("price") + "</td>"
-                     + "</tr>");
+            if(rset.getInt("qty") > 0) {      //Check if item is sold out and display accordingly
+               out.println("<tr>"
+               + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
+               + "<td><input type='number' name='qty' value='0' max='" + rset.getInt("qty") + "' /></td>" //Restrict qty able to be ordered to be =< stock
+               + "<td>" + rset.getString("foodType") + "</td>"
+               + "<td>" + rset.getString("foodItem") + "</td>"
+               + "<td>" + rset.getString("calories") + "</td>"
+               + "<td>$" + rset.getString("price") + "</td>"
+               + "</tr>");   
+            } else {
+               out.println("<tr>"
+               + "<td><h2>SOLDOUT</h2></td>"
+               + "<td><input type='number' name='qty' value='0' max='" + rset.getInt("qty") + "' /></td>" //Restrict qty able to be ordered to be =< stock
+               + "<td>" + rset.getString("foodType") + "</td>"
+               + "<td>" + rset.getString("foodItem") + "</td>"
+               + "<td>" + rset.getString("calories") + "</td>"
+               + "<td>$" + rset.getString("price") + "</td>"
+               + "</tr>");
+            }
          }
 
          out.println("</table>");
- 
-         out.println("<p>Enter your Name: <input type='text' name='cust_name' /></p>");
-         out.println("<p>Enter your Email: <input type='text' name='cust_email' /></p>");
-         out.println("<p>Enter your Phone Number: <input type='text' name='cust_phone' /></p>");
 
          // Print the submit + clear button and </form> end-tag
          out.println("<br><br>");
          out.println("<input type='reset' value='CLEAR' />");
-         out.println("<input type='submit' value='ORDER' />");
+         out.println("<input type='submit' value='ADD TO CART' />");
          out.println("</form>");
+         out.print("<a href='ffsquery.html'>Main Menu</a>");
       } catch(Exception ex) {
          out.println("<p>Error: " + ex.getMessage() + "</p>");
          out.println("<p>Check Tomcat console for details.</p>");

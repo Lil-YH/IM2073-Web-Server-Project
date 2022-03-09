@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.*;
 //import javax.servlet.http.*;
 //import javax.servlet.annotation.*;
 
-@WebServlet("/ffsorder")   // Configure the request URL for this servlet (Tomcat 7/Servlet 3.0 upwards)
+@WebServlet("/ffscart")   // Configure the request URL for this servlet (Tomcat 7/Servlet 3.0 upwards)
 public class FfsOrderServlet extends HttpServlet {
 
    // The doGet() runs once per HTTP GET request to this servlet.
@@ -19,7 +19,7 @@ public class FfsOrderServlet extends HttpServlet {
       response.setContentType("text/html");
       // Get a output writer to write the response message into the network socket
       PrintWriter out = response.getWriter();
-
+      HttpSession session =request.getSession();
       // Print an HTML page as the output of the query
       out.println("<!DOCTYPE html>");
       out.println("<html>");
@@ -40,31 +40,15 @@ public class FfsOrderServlet extends HttpServlet {
          // Retrieve the food's id. Can order more than one food.
          String[] ids = request.getParameterValues("id");
          String[] qtys = request.getParameterValues("qty");
+         session.setAttribute("cartid", ids);
+         session.setAttribute("cartqty", qtys);
          if (ids != null) {
             String sqlStr;
             int count;
  
-            // Process each of the food
-            for (int i = 0; i < ids.length; ++i) {
-               // Update the qty of the table food
-               sqlStr = "UPDATE food SET qty = qty - " + qtys[i] + " WHERE id = " + ids[i];
-               //out.println("<p>" + sqlStr + "</p>");  // for debugging
-               count = stmt.executeUpdate(sqlStr);
-               //out.println("<p>" + count + " record updated.</p>");
- 
-               // Create a transaction record
-               sqlStr = "INSERT INTO order_records (id, qty_ordered) VALUES ("
-                     + ids[i] + ", " + qtys[i] + ")";
-               //out.println("<p>" + sqlStr + "</p>");  // for debugging
-               count = stmt.executeUpdate(sqlStr);
-               /*out.println("<p>" + count + " record inserted.</p>");
-               out.println("<h3>Your order for food id=" + ids[i]
-                     + " has been confirmed.</h3>");*/
-            }
 
             out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
-            out.println("<h3 style='text-align:center;'>Order placed</h3>");
-            out.println("<p style='text-align:center;'>We are preparing your order.</p>");
+            out.println("<h3 style='text-align:center;'>Your Cart</h3>");
             sqlStr = "SELECT * FROM food WHERE id IN (";
                for (int i = 0; i < ids.length; ++i) {
                   if (i < ids.length - 1) {
@@ -78,7 +62,7 @@ public class FfsOrderServlet extends HttpServlet {
             out.println("<style>table, th, td {border:1px solid black;}</style>"
                   + "<table>"
                   + "<tr>"
-                  + "<th>QUANTITY ORDERED</th>"
+                  + "<th>QUANTITY</th>"
                   + "<th>CATEGORY</th>"
                   + "<th>ITEM</th>"
                   + "<th>CALORIES (cal)</th>"
@@ -100,6 +84,11 @@ public class FfsOrderServlet extends HttpServlet {
             }
          out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
          out.println("<h3>Total Price: $"+ totalPrice + "</h3>");
+
+         
+         out.println("<p>Enter your Name: <input type='text' name='cust_name' /></p>");
+         out.println("<p>Enter your Email: <input type='text' name='cust_email' /></p>");
+         out.println("<p>Enter your Phone Number: <input type='text' name='cust_phone' /></p>");
          } else { // No food selected
             out.println("<h3>No food selected... Please go back and order a food/drink :)</h3>");
          }
