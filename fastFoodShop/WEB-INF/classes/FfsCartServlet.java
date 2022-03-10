@@ -66,20 +66,21 @@ public class FfsCartServlet extends HttpServlet {
          // Retrieve the food's id. Can order more than one food.
          String[] ids = request.getParameterValues("id");
          String[] qtys = request.getParameterValues("qty");
-         if (ids != null) {
+         if (true) {
             String sqlStr;
             int count;
 
 
-           
-            for (int i = 0; i < ids.length; ++i) {
+            if( ids != null){ 
+               for (int i = 0; i < ids.length; ++i) {
                // Update the qty of the table food
                sqlStr = "UPDATE cart SET qty_ordered =" + qtys[i] + " WHERE id = " + ids[i];
                //out.println("<p>" + sqlStr + "</p>");  // for debugging
                count = stmt.executeUpdate(sqlStr);
                //out.println("<p>" + count + " record updated.</p>");
             }
-
+}
+           
          
             out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
             out.println("<h3 style='text-align:center;'>Your Cart</h3>");
@@ -110,6 +111,7 @@ public class FfsCartServlet extends HttpServlet {
             totalCalories += rset.getInt("qty_ordered") * rset.getInt("calories");
             totalPrice += rset.getInt("qty_ordered") * rset.getFloat("price");
             }
+         out.println("</table>");
          out.println("<form method='get' action='ffsorder'");
          out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
          out.println("<h3>Total Price: $"+ totalPrice + "</h3>");

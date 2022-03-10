@@ -59,50 +59,23 @@ public class FfsOrderServlet extends HttpServlet {
                // The format is: "jdbc:mysql://hostname:port/databaseName", "username", "password"
 
          // Step 2: Allocate a 'Statement' object in the Connection
-         Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+         Statement stmt = conn.createStatement();
       ) {
 	      // Step 3 & 4: Execute a SQL SELECT query and Process the query result
 	      // Retrieve the food's id. Can order more than one food.
-	      String[] ids = request.getParameterValues("id");
-	      String[] qtys = request.getParameterValues("qty");
          String sqlStr;
          sqlStr = "SELECT * FROM food RIGHT JOIN cart ON food.id = cart.id WHERE cart.qty_ordered > 0 ORDER by cart.id ASC";
-         ResultSet rset = stmt.executeQuery(sqlStr);
-	      if (rset.next()) {
+	      if (true) {
          	int count;
-            rset.beforeFirst();
-            int i = 0 ;
          // Process each of the food
-         while(rset.next()) {
-            // Update the qty of the table food
-            sqlStr = "UPDATE food SET qty = qty - " + rset.getString("qty_ordered") + " WHERE id = " + rset.getString("id");
-            //out.println("<p>" + sqlStr + "</p>");  // for debugging
-            count = stmt.executeUpdate(sqlStr);
-            //out.println("<p>" + count + " record updated.</p>");
-
-            // Create a transaction record
-            sqlStr = "INSERT INTO order_records (id, qty_ordered) VALUES ("
-                   + rset.getString("qty_ordered") + ", " + rset.getString("id") + ")";
-            //out.println("<p>" + sqlStr + "</p>");  // for debugging
-            count = stmt.executeUpdate(sqlStr);
-            /*out.println("<p>" + count + " record inserted.</p>");
-            out.println("<h3>Your order for food id=" + ids[i]
-                  + " has been confirmed.</h3>");*/
-
-            // clear cart
-            sqlStr = "DELETE FROM cart";
-            count = stmt.executeUpdate(sqlStr);
-            i++;
-         }
 
          out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
          out.println("<h3 style='text-align:center;'>Order placed</h3>");
          out.println("<p style='text-align:center;'>We are preparing your order.</p>");
-
-         rset.beforeFirst();
+         //out.println("Test before first");
+         //rset2.beforeFirst();
           
-         out.println("<style>table, th, td {border:1px solid black;}</style>"
-               + "<table>"
+         out.println("<table class='table'>"
                + "<tr>"
                + "<th>CATEGORY</th>"
                + "<th>ITEM</th>"
@@ -112,20 +85,47 @@ public class FfsOrderServlet extends HttpServlet {
                + "</tr>");					// why i = 0 here? shld it be set inside while loop? then i++ before the end of the loop
          float totalPrice = 0;
          int totalCalories = 0;
-         while(rset.next()) {
-         	// int i = 0;
+         int x =0;
+         ResultSet rset2 = stmt.executeQuery(sqlStr);
+         while(rset2.next()) {
           	out.println("<tr>"
                   //+ "<td>" + qtys[i] + "</td>"	// do we need this?
-                  + "<td>" + rset.getString("foodType") + "</td>"
-                  + "<td>" + rset.getString("foodItem") + "</td>"
-                  + "<td>" + rset.getString("calories") + "</td>"
-                  + "<td>" + rset.getString("qty_ordered") + "</td>"
-                  + "<td>$" + rset.getString("price") + "</td>"
+                  + "<td>" + rset2.getString("foodType") + "</td>"
+                  + "<td>" + rset2.getString("foodItem") + "</td>"
+                  + "<td>" + rset2.getString("calories") + "</td>"
+                  + "<td>" + rset2.getString("qty_ordered") + "</td>"
+                  + "<td>$" + rset2.getString("price") + "</td>"
                   + "</tr>");
-          	totalCalories += rset.getInt("qty_ordered") * rset.getInt("calories");
-          	totalPrice += rset.getInt("qty_ordered") * rset.getFloat("price");
+          	totalCalories += rset2.getInt("qty_ordered") * rset2.getInt("calories");
+          	totalPrice += rset2.getInt("qty_ordered") * rset2.getFloat("price");
+            x++;
          }
+         out.println("</table>");
+         for (int i = 0; i < x-1; i++){
+            String qty_ordered = rset2.getString("qty_ordered");
+            String idString = rset2.getString("id");
+            //out.println("Test loop 1");
+            sqlStr = "UPDATE food SET qty = qty - " + qty_ordered + " WHERE id = " + idString;
+            //out.println("<p>" + sqlStr + "</p>");  // for debugging
+            count = stmt.executeUpdate(sqlStr);
+            //out.println("<p>" + count + " record updated.</p>");
+            //out.println("Test loop 2");
+            // Create a transaction record
+            sqlStr = "INSERT INTO order_records (id, qty_ordered) VALUES ("
+                   + idString + ", " + qty_ordered + ")";
+            out.println("<p>" + sqlStr + "</p>");  // for debugging
+            count = stmt.executeUpdate(sqlStr);
+            /*out.println("<p>" + count + " record inserted.</p>");
+            out.println("<h3>Your order for food id=" + ids[i]
+                  + " has been confirmed.</h3>");*/
 
+            // clear cart
+            
+            //out.println("Test loop 3");
+         	//out.println("Test loop 2");
+         }
+         sqlStr = "UPDATE cart SET qty_ordered = 0";
+         count = stmt.executeUpdate(sqlStr);
        	out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");
        	out.println("<h3>Total Price: $"+ totalPrice + "</h3>");
        	out.println("<br><br>");
