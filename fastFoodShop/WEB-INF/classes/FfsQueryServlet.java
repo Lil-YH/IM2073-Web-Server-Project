@@ -121,7 +121,7 @@ public class FfsQueryServlet extends HttpServlet {
             if(rset.getInt("qty") > 0) {      //Check if item is sold out and display accordingly
                out.println("<tr>"
                + "<td><input type='checkbox' name='id' value='" + rset.getString("id") + "' /></td>"
-               + "<td><input type='number' name='qty' value='0' max='" + rset.getInt("qty") + "' /></td>" //Restrict qty able to be ordered to be =< stock
+               + "<td><input type='number' name='qty' value='0' min='0' max='" + rset.getInt("qty") + "' /></td>" //Restrict qty able to be ordered to be =< stock
                + "<td>" + rset.getString("foodType") + "</td>"
                + "<td>" + rset.getString("foodItem") + "</td>"
                + "<td>" + rset.getString("calories") + "</td>"

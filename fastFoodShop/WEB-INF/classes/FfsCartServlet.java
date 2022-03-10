@@ -69,27 +69,25 @@ public class FfsCartServlet extends HttpServlet {
          if (ids != null) {
             String sqlStr;
             int count;
-            sqlStr = "UPDATE * FROM cart WHERE id IN (";
+
+
+           
             for (int i = 0; i < ids.length; ++i) {
-               if (i < ids.length - 1) {
-                  sqlStr += "'" + ids[i] + "', ";  // need a commas
-               } else {
-                  sqlStr += "'" + ids[i] + "'";    // no commas
-               }
+               // Update the qty of the table food
+               sqlStr = "UPDATE cart SET qty_ordered =" + qtys[i] + " WHERE id = " + ids[i];
+               //out.println("<p>" + sqlStr + "</p>");  // for debugging
+               count = stmt.executeUpdate(sqlStr);
+               //out.println("<p>" + count + " record updated.</p>");
             }
+
          
             out.println("<h1 style='text-align:center;'>Fast Food Kings</h1>");
             out.println("<h3 style='text-align:center;'>Your Cart</h3>");
-            sqlStr = "SELECT * FROM food WHERE id IN (";
-               for (int i = 0; i < ids.length; ++i) {
-                  if (i < ids.length - 1) {
-                     sqlStr += "'" + ids[i] + "', ";  // need a commas
-                  } else {
-                     sqlStr += "'" + ids[i] + "'";    // no commas
-                  }
-               }
-            sqlStr += ") ORDER BY id ASC";
+            sqlStr = "SELECT * FROM food RIGHT JOIN cart ON food.id = cart.id WHERE cart.qty_ordered > 0 ";
+              
+            sqlStr += "ORDER BY cart.id ASC";
             ResultSet rset = stmt.executeQuery(sqlStr);
+
             out.println("<table style='border: 0;'' class='table'>"
                   + "<tr>"
                   + "<th>QUANTITY</th>"
@@ -103,14 +101,14 @@ public class FfsCartServlet extends HttpServlet {
             int totalCalories = 0;
             while(rset.next()) {
             out.println("<tr>"
-                     + "<td>" + qtys[i] + "</td>"
+                     + "<td>" + rset.getString("qty_ordered") + "</td>"
                      + "<td>" + rset.getString("foodType") + "</td>"
                      + "<td>" + rset.getString("foodItem") + "</td>"
                      + "<td>" + rset.getString("calories") + "</td>"
                      + "<td>$" + rset.getString("price") + "</td>"
                      + "</tr>");
-            totalCalories += Integer.parseInt(qtys[i]) * rset.getInt("calories");
-            totalPrice += Integer.parseInt(qtys[i++]) * rset.getFloat("price");
+            totalCalories += rset.getInt("qty_ordered") * rset.getInt("calories");
+            totalPrice += rset.getInt("qty_ordered") * rset.getFloat("price");
             }
          out.println("<form method='get' action='ffsorder'");
          out.println("<h3>Total Calories: "+ totalCalories + "Cal</h3>");

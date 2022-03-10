@@ -34,9 +34,9 @@ create table customers (
   primary key (cust_id));
 alter table customers auto_increment=8000;
  
-insert into food values (1001, 'Burger','Cheese Burger', 450, 5.50, 0, 'cheeseburger.jpg');
+insert into food values (1001, 'Burger','Cheese Burger', 450, 5.50, 4, 'cheeseburger.jpg');
 insert into food values (1002, 'Burger','Fish Burger', 450, 5.50, 5, 'fishburger.jpg');
-insert into food values (1003, 'Burger','Chicken Burger', 450, 5.50, 4, 'chickenburger.jpg');
+insert into food values (1003, 'Burger','Chicken Burger', 450, 5.50, 0, 'chickenburger.jpg');
 insert into food values (1004, 'Fries','Fries Large', 500, 3.00, 3, 'fries.png');
 insert into food values (1005, 'Fries','Fries Small', 230, 2.00, 2, 'friessmall.png');
 insert into food values (1006, 'Drink','Coke Large', 290, 2.50, 6, 'cokelarge.png');
